@@ -21,7 +21,7 @@ mongoose.connect(`${process.env.START_MONGODB}${process.env.MONGODB_USERNAME}:${
 
 //MiddleWare
 app.use(express.json());
-app.use(cors({ origin:"http://localhost:3000", credentials: true })) //front end url
+app.use(cors({ origin:"https://www.newworld-theagency.com", credentials: true })) //front end url
 
 app.set("trust proxy", 1);
 
@@ -85,7 +85,7 @@ app.get('/auth/discord', passport.authenticate('discord', {scope: ['identify']})
 app.get('/auth/discord/callback', passport.authenticate('discord', { //failure to auth
     failureRedirect: '/'
 }), function(req, res) { 
-    res.redirect('http://localhost:3000') // Successful auth front end url
+    res.redirect('https://www.newworld-theagency.com') // Successful auth front end url
 });
 
 app.get('/', (req,res) => {
