@@ -88,6 +88,6 @@ app.get('/getuser', (req,res) => {
     res.send(req.user);
 })
 
-app.listen( 4000, ()=> {
+app.listen(process.env.PORT || 4000, ()=> {
     console.log('Server Started');
 })
