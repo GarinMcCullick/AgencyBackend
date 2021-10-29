@@ -28,10 +28,10 @@ app.set("trust proxy", 1);
 app.use(
   session({
     secret: "secretcode",
-    resave: false,
-    saveUninitialized: false,
+    resave: true,
+    saveUninitialized: true,
     cookie: {
-        sameSite: true,
+        sameSite: "none",
         secure: true,
         maxAge: 1000 * 60 * 60 * 24 * 7 //one week
     }
