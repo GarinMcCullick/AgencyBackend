@@ -85,7 +85,6 @@ app.get('/auth/discord', passport.authenticate('discord', {scope: ['identify']})
 app.get('/auth/discord/callback', passport.authenticate('discord', { //failure to auth
     failureRedirect: '/'
 }), function(req, res) { 
-    res.header("Refresh", "5")
     res.redirect(`${/*"https://www.newworld-theagency.com"*/"http://localhost:3000"}`) // Successful auth front end url
 });
 
@@ -95,6 +94,7 @@ app.get('/', (req,res) => {
 })
 
 app.get('/getuser', (req,res) => {
+    res.header("Refresh", "5")
     res.send(req.user);
 })
 
