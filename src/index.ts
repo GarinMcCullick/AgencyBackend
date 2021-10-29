@@ -94,7 +94,6 @@ app.get('/', (req,res) => {
 })
 
 app.get('/getuser', (req,res) => {
-    res.header("Refresh", "5")
     res.send(req.user);
 })
 
