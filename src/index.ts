@@ -28,10 +28,10 @@ app.set("trust proxy", 1);
 app.use(
   session({
     secret: "secretcode",
-    resave: true,
-    saveUninitialized: true,
+    resave: false,
+    saveUninitialized: false,
     cookie: {
-        sameSite: "none",
+        sameSite: true,
         secure: true,
         maxAge: 1000 * 60 * 60 * 24 * 7 //one week
     }
@@ -85,11 +85,13 @@ app.get('/auth/discord', passport.authenticate('discord', {scope: ['identify']})
 app.get('/auth/discord/callback', passport.authenticate('discord', { //failure to auth
     failureRedirect: '/'
 }), function(req, res) { 
+    res.header("Refresh", "5")
     res.redirect(`${/*"https://www.newworld-theagency.com"*/"http://localhost:3000"}`) // Successful auth front end url
 });
 
 app.get('/', (req,res) => {
-    res.send('hello world');
+    console.log(req.session.id);
+    res.send(`session id = ${req.session.id}`);
 })
 
 app.get('/getuser', (req,res) => {
