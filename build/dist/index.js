@@ -47,6 +47,7 @@ var express_session_1 = __importDefault(require("express-session"));
 var passport_1 = __importDefault(require("passport"));
 var user_1 = __importDefault(require("./user"));
 var DiscordStrategy = require('passport-discord').Strategy;
+var cookie_parser_1 = __importDefault(require("cookie-parser"));
 dotenv_1.default.config();
 var app = (0, express_1.default)();
 mongoose_1.default.connect("" + process.env.START_MONGODB + process.env.MONGODB_USERNAME + ":" + process.env.MONGODB_PASSWORD + process.env.END_MONGODB, {
@@ -57,19 +58,28 @@ mongoose_1.default.connect("" + process.env.START_MONGODB + process.env.MONGODB_
 });
 //MiddleWare
 app.use(express_1.default.json());
-app.use((0, cors_1.default)({ origin: "http://localhost:3000", credentials: true }));
+app.use((0, cors_1.default)({ origin: "https://www.newworld-theagency.com", credentials: true })); //front end url
+app.set("trust proxy", 1);
+app.use((0, cookie_parser_1.default)());
 app.use((0, express_session_1.default)({
     secret: "secretcode",
     resave: true,
     saveUninitialized: true,
+    cookie: {
+        sameSite: "none",
+        secure: true,
+        maxAge: 1000 * 60 * 60 * 24 * 7 //one week
+    }
 }));
 app.use(passport_1.default.initialize());
 app.use(passport_1.default.session());
 passport_1.default.serializeUser(function (user, done) {
-    return done(null, user);
+    return done(null, user._id); //only serializes the id (best practice)
 });
-passport_1.default.deserializeUser(function (user, done) {
-    return done(null, user);
+passport_1.default.deserializeUser(function (id, done) {
+    user_1.default.findById(id, function (err, doc) {
+        return done(null, doc); //finds user in database
+    });
 });
 var scopes = ['identify', 'email', 'guilds', 'guilds.join'];
 passport_1.default.use(new DiscordStrategy({
@@ -77,7 +87,7 @@ passport_1.default.use(new DiscordStrategy({
     clientSecret: 'eGs_ip7c8DwIjk3ipKg6_y2eqzLYRl-z',
     callbackURL: '/auth/discord/callback',
     scope: scopes
-}, function (accessToken, refreshToken, profile, cb) {
+}, function (_, __, profile, cb) {
     var _this = this;
     user_1.default.findOne({ discordId: profile.id }, function (err, doc) { return __awaiter(_this, void 0, void 0, function () {
         var newUser;
@@ -89,24 +99,26 @@ passport_1.default.use(new DiscordStrategy({
                     }
                     if (!!doc) return [3 /*break*/, 2];
                     newUser = new user_1.default({
-                        discordId: profile.data.id,
-                        username: profile.data.username
+                        discordId: profile.id,
+                        username: profile.username
                     });
                     return [4 /*yield*/, newUser.save()];
                 case 1:
                     _a.sent();
+                    cb(null, newUser);
                     _a.label = 2;
-                case 2: return [2 /*return*/];
+                case 2:
+                    cb(null, doc);
+                    return [2 /*return*/];
             }
         });
     }); });
-    cb(null, profile);
 }));
 app.get('/auth/discord', passport_1.default.authenticate('discord', { scope: ['identify'] })); //calls it
 app.get('/auth/discord/callback', passport_1.default.authenticate('discord', {
     failureRedirect: '/'
 }), function (req, res) {
-    res.redirect('http://localhost:3000'); // Successful auth
+    res.redirect('https://www.newworld-theagency.com'); // Successful auth front end url
 });
 app.get('/', function (req, res) {
     res.send('hello world');
@@ -114,7 +126,7 @@ app.get('/', function (req, res) {
 app.get('/getuser', function (req, res) {
     res.send(req.user);
 });
-app.listen(4000, function () {
+app.listen(process.env.PORT || 4000, function () {
     console.log('Server Started');
 });
 //# sourceMappingURL=index.js.map
