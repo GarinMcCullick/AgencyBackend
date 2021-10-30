@@ -100,7 +100,7 @@ app.get('/getuser', (req,res) => {
 app.get('/logout', (req,res)=>{
     if(req.user) {
         req.logout();
-        res.send("success");
+        res.send("done");
     }
 })
 
