@@ -72,6 +72,7 @@ function(_: any, __: any, profile: any, cb: any) {
                 discordId: profile.id,
                 username: profile.username,
                 guilds: profile.guilds,
+                avatar: profile.avatar,
             });
             await newUser.save();
             cb(null, newUser);
