@@ -12,7 +12,11 @@ const user = new mongoose.Schema({
     guilds: {
         required:true,
         type:Array,
-    }
+    },
+    avatar: {
+        required:true,
+        type: String,
+    },
 })
 
 export default mongoose.model("User", user)
