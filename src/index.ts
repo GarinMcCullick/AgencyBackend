@@ -80,7 +80,7 @@ function(_: any, __: any, profile: any, cb: any) {
     
 }));
 
-app.get('/auth/discord', passport.authenticate('discord', {scope: ['identify']})); //calls it
+app.get('/auth/discord', passport.authenticate('discord', {scope: ['identify','guilds']})); //calls it
 
 app.get('/auth/discord/callback', passport.authenticate('discord', { //failure to auth
     failureRedirect: '/'
