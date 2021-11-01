@@ -89,7 +89,7 @@ app.get('/auth/discord/callback', passport.authenticate('discord', { //failure t
     res.redirect(`${/*"https://www.newworld-theagency.com"*/"http://localhost:3000/dashboard"}`) // Successful auth front end url
 });
 
-app.get('/dashboard', (req,res) => {
+app.get('/', (req,res) => {
     console.log(req.session.id);
     res.send(`session id = ${req.session.id}`);
 })
