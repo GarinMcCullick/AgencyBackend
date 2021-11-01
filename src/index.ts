@@ -70,7 +70,8 @@ function(_: any, __: any, profile: any, cb: any) {
             //create a user
             const newUser = new user({
                 discordId: profile.id,
-                username: profile.username
+                username: profile.username,
+                guilds: profile.guilds,
             });
             await newUser.save();
             cb(null, newUser);
