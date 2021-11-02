@@ -31,7 +31,7 @@ app.use(
     resave: true,
     saveUninitialized: true,
     cookie: {
-        sameSite: "none",
+        
         secure: true,
         maxAge: 1000 * 60 * 60 * 24 * 7 //one week
     }
@@ -104,6 +104,11 @@ app.get('/logout', (req,res)=>{
         req.logout();
         res.send("done");
     }
+})
+
+app.post('/', (req,res) => {
+    console.log(req.body);
+    res.status(201).send('Created User')
 })
 
 app.listen(process.env.PORT || 4000, ()=> {
