@@ -21,7 +21,7 @@ mongoose.connect(`${process.env.START_MONGODB}${process.env.MONGODB_USERNAME}:${
 
 //MiddleWare
 app.use(express.json());
-app.use(cors({ origin:`${/*"http://localhost:3000"*/"https://www.newworld-theagency.com"}`, credentials: true })) //front end url
+app.use(cors({ origin:`${"http://localhost:3000"/*"https://www.newworld-theagency.com"*/}`, credentials: true })) //front end url
 
 app.set("trust proxy", 1);
 
@@ -85,9 +85,9 @@ function(_: any, __: any, profile: any, cb: any) {
 app.get('/auth/discord', passport.authenticate('discord', {scope: ['identify','guilds']})); //calls it
 
 app.get('/auth/discord/callback', passport.authenticate('discord', { //failure to auth
-    failureRedirect: "https://www.newworld-theagency.com"/*"http://localhost:3000/dashboard"*/
+    failureRedirect: /*"https://www.newworld-theagency.com"*/"http://localhost:3000/dashboard"
 }), function(req, res) { 
-    res.redirect(`${"https://www.newworld-theagency.com/Dashboard"/*"http://localhost:3000/dashboard"*/}`) // Successful auth front end url
+    res.redirect(`${/*"https://www.newworld-theagency.com/Dashboard"*/"http://localhost:3000/dashboard"}`) // Successful auth front end url
 });
 
 app.get('/', (req,res) => {
