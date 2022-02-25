@@ -86,7 +86,7 @@ function(_: any, __: any, profile: any, cb: any) {
 app.get('/auth/discord', passport.authenticate('discord', {scope: ['identify','guilds']})); //calls it
 
 app.get('/auth/discord/callback', passport.authenticate('discord', { //failure to auth
-    failureRedirect: /*"https://www.newworld-theagency.com"*/"http://localhost:3000/dashboard"
+    failureRedirect: /*"https://www.newworld-theagency.com"*/"http://localhost:3000"
 }), function(req, res) { 
     res.redirect(`${/*"https://www.newworld-theagency.com/Dashboard"*/"http://localhost:3000/Dashboard"}`) // Successful auth front end url
 });
@@ -95,6 +95,7 @@ app.get('/auth/discord/callback', passport.authenticate('discord', { //failure t
 app.get('/', (req,res) => {
     console.log(req.session.id);
     res.send(`session id = ${req.session.id}`);
+    return
 })
 
 app.get('/getuser', (req,res) => {
@@ -113,6 +114,7 @@ app.get('/logout', (req,res)=>{
 app.post('/', (req,res) => {
     console.log(req.body);
     res.status(201).send('Created User')
+    return
 })
 
 app.listen(process.env.PORT || 4000, ()=> {
