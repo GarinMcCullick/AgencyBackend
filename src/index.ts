@@ -89,8 +89,12 @@ app.get('/auth/discord/callback', passport.authenticate('discord', { //failure t
     failureRedirect: /*"https://www.newworld-theagency.com"*/"http://localhost:3000"
 }), function(req, res) { 
     res.redirect(`${/*"https://www.newworld-theagency.com/Dashboard"*/"http://localhost:3000/dashboard"}`) // Successful auth front end url
-    res.send(req.user);
-});
+    if (!req.body.name) {
+        return res.status(400).json({
+          status: 'error',
+          error: 'req body cannot be empty',
+        });
+};
 
 app.get('/', (req,res) => {
     console.log(req.session.id);
