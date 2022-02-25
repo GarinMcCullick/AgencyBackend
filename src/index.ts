@@ -89,12 +89,7 @@ app.get('/auth/discord/callback', passport.authenticate('discord', { //failure t
     failureRedirect: /*"https://www.newworld-theagency.com"*/"http://localhost:3000"
 }), function(req, res) { 
     res.redirect(`${/*"https://www.newworld-theagency.com/Dashboard"*/"http://localhost:3000/dashboard"}`) // Successful auth front end url
-    if (!req.body.name) {
-        return res.status(400).json({
-          status: 'error',
-          error: 'req body cannot be empty',
-        });
-};
+});
 
 app.get('/', (req,res) => {
     console.log(req.session.id);
@@ -102,7 +97,12 @@ app.get('/', (req,res) => {
 })
 
 app.get('/getuser', (req,res) => {
+    if(!req.user) {
+        req.logout();
+        res.send("done");
+    }else{
     res.send(req.user);
+    }
 })
 
 app.get('/logout', (req,res)=>{
