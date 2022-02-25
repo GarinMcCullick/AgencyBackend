@@ -97,12 +97,9 @@ app.get('/', (req,res) => {
 })
 
 app.get('/getuser', (req,res) => {
-    if(!req.user) {
-        req.logout();
-        res.send("done");
-    }else{
-    res.send(req.user);
-    }
+    return(res.send(req.user))
+    
+    
 })
 
 app.get('/logout', (req,res)=>{
