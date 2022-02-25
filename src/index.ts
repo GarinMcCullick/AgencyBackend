@@ -21,7 +21,7 @@ mongoose.connect(`${process.env.START_MONGODB}${process.env.MONGODB_USERNAME}:${
 
 //MiddleWare
 app.use(express.json());
-app.use(cors({ origin:`${"http://localhost:3000"/*"https://www.newworld-theagency.com"*/}`, credentials: true })) //front end url
+app.use(cors({ origin:`${"http://localhost:3000/dashboard"/*"https://www.newworld-theagency.com"*/}`, credentials: true })) //front end url
 
 app.set("trust proxy", 1);
 
