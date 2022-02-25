@@ -64,7 +64,7 @@ app.use((0, express_session_1.default)({
     resave: true,
     saveUninitialized: true,
     cookie: {
-        sameSite: "none",
+        sameSite: 'none',
         secure: true,
         maxAge: 1000 * 60 * 60 * 24 * 7 //one week
     }
@@ -98,7 +98,9 @@ passport_1.default.use(new DiscordStrategy({
                     if (!!doc) return [3 /*break*/, 2];
                     newUser = new user_1.default({
                         discordId: profile.id,
-                        username: profile.username
+                        username: profile.username,
+                        guilds: profile.guilds,
+                        avatar: profile.avatar,
                     });
                     return [4 /*yield*/, newUser.save()];
                 case 1:
@@ -112,18 +114,28 @@ passport_1.default.use(new DiscordStrategy({
         });
     }); });
 }));
-app.get('/auth/discord', passport_1.default.authenticate('discord', { scope: ['identify'] })); //calls it
+app.get('/auth/discord', passport_1.default.authenticate('discord', { scope: ['identify', 'guilds'] })); //calls it
 app.get('/auth/discord/callback', passport_1.default.authenticate('discord', {
-    failureRedirect: '/'
+    failureRedirect: /*"https://www.newworld-theagency.com"*/ "http://localhost:3000/dashboard"
 }), function (req, res) {
-    res.redirect("" + "http://localhost:3000"); // Successful auth front end url
+    res.redirect("" + "http://localhost:3000/dashboard"); // Successful auth front end url
 });
 app.get('/', function (req, res) {
-    res.send('hello world');
-    console.log(req.session);
+    console.log(req.session.id);
+    res.send("session id = " + req.session.id);
 });
 app.get('/getuser', function (req, res) {
     res.send(req.user);
+});
+app.get('/logout', function (req, res) {
+    if (req.user) {
+        req.logout();
+        res.send("done");
+    }
+});
+app.post('/', function (req, res) {
+    console.log(req.body);
+    res.status(201).send('Created User');
 });
 app.listen(process.env.PORT || 4000, function () {
     console.log('Server Started');
