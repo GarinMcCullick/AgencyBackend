@@ -95,12 +95,13 @@ app.get('/auth/discord/callback', passport.authenticate('discord', { //failure t
 app.get('/', (req,res) => {
     console.log(req.session.id);
     res.send(`session id = ${req.session.id}`);
-    return
+    
 })
 
 app.get('/getuser', (req,res) => {
     res.send(req.user)
-    return
+    
+    
 })
 
 app.get('/logout', (req,res)=>{
@@ -114,7 +115,7 @@ app.get('/logout', (req,res)=>{
 app.post('/', (req,res) => {
     console.log(req.body);
     res.status(201).send('Created User')
-    return
+   
 })
 
 app.listen(process.env.PORT || 4000, ()=> {
