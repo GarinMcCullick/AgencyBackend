@@ -98,9 +98,7 @@ app.get('/', (req,res) => {
 })
 
 app.get('/getuser', (req,res) => {
-    return(res.send(req.user))
-    
-    
+    res.send(req.user)
 })
 
 app.get('/logout', (req,res)=>{
@@ -109,6 +107,7 @@ app.get('/logout', (req,res)=>{
         res.send("done");
     }
 })
+
 
 app.post('/', (req,res) => {
     console.log(req.body);
