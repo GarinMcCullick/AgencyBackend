@@ -88,7 +88,7 @@ app.get('/auth/discord', passport.authenticate('discord', {scope: ['identify','g
 app.get('/auth/discord/callback', passport.authenticate('discord', { //failure to auth
     failureRedirect: /*"https://www.newworld-theagency.com"*/"http://localhost:3000/dashboard"
 }), function(req, res) { 
-    res.redirect(`${/*"https://www.newworld-theagency.com/Dashboard"*/"http://localhost:3000"}`) // Successful auth front end url
+    res.redirect(`${/*"https://www.newworld-theagency.com/Dashboard"*/"http://localhost:3000/Dashboard"}`) // Successful auth front end url
 });
 
 
