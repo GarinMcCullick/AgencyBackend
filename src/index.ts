@@ -99,6 +99,7 @@ app.get('/', (req,res) => {
 
 app.get('/getuser', (req,res) => {
     res.send(req.user)
+    return
 })
 
 app.get('/logout', (req,res)=>{
